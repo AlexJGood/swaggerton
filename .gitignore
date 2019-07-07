@@ -8,6 +8,8 @@
 *.user
 *.userosscache
 *.sln.docstates
+swaggerton-server.xml
+
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
