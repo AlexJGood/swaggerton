@@ -6,6 +6,10 @@ Going to take this to swaggerton or how to implement swagger/openAPI in .net cor
 
 add some description here
 
+## What is Swashbuckle?
+
+add some description here
+
 ## What is going to be shown?
 
 1. Adding swagger to a .net core Web API project
@@ -24,10 +28,11 @@ Once that is added you will need to do a few things.
 
 in ConfigureServices method in Startup.cs add the following
 
-```services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "swagger-ton", Version = "v1" });
-            });
+```
+           services.AddSwaggerGen(c =>
+           {
+               c.SwaggerDoc("v1", new Info { Title = "swagger-ton", Version = "v1" });
+           });
 ```
 
 also in the Configure method on Startup.cs add the follow to generate swagger UI
@@ -43,3 +48,26 @@ also in the Configure method on Startup.cs add the follow to generate swagger UI
 Now run the project (f5). Once the web browser shows up and loads the default route, change the relative path to /swagger and bam you got swagger.
 
 ![swagger ui](_images/swagger-ui.png)
+
+You might notice that there are no descriptions of what the API will do. In the next section we will explore adding more meta data around your API's.
+
+## "Decorating" the project to get good description in the swagger UI
+
+You will notice that there are no descriptions displayed or even a name associated to the operation.
+
+In order to descriptions we have to tell Swashbuckle to pick descriptions from somewhere. Swashbuckle supports using descriptions from XML comment documentation. Below is the code snippet that tells Swashbuckle to use comments as descriptions in the Swagger file.
+
+```
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "swagger-ton", Version = "v1" });
+                var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                var commentsFileName = Assembly.GetEntryAssembly().GetName().Name + ".xml";
+                var commentsFile = Path.Combine(baseDirectory, commentsFileName);
+                c.IncludeXmlComments(commentsFile);
+            });
+```
+
+There is one more step if you run the project now it will throw an exception.
+
+![XML file missing](_images/error-notfound.png)
