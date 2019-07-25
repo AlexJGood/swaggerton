@@ -1,11 +1,12 @@
-# Swaggerton
+# Getting your .Net API from the server to the client with Swagger & Swashbuckle
 
-Going to take this to swaggerton or how to implement swagger/openAPI in .net core and also realize those contracts in a React Client with push button tooling from the swagger api description
+The internet runs on APIs, and solid API specifications are as valuable as the tools that eventually implement them. Here at Rightpoint we realize there are many ways to write an API, just as there are many ways to spin up a server and consume the API with a webpage or some other client. We've found that .Net core and Typescript are great options for this. And just like how .Net and React stand out from the rest when it comes to implementing a web experience, so does Swagger come close to perfecting that first step in any significantly large web project, building and managing the API.
 
-## What is swagger or openAPI?
+Throughout this post we're going to take a walk through swagger-ton, a small example .Net core Web API project, and with push-button-ease generate a Typescript React Client that uses the same API. We'll do this without actually writing any API boilerplate code ourselves! The credit to this miraculous cross-platform solution goes almost exclusively to the Swagger tool.
 
-[From the swagger.io website](https://swagger.io/docs/specification/2-0/what-is-swagger/) -
-Swagger allows you to describe the structure of your APIs so that machines can read them. The ability of APIs to describe their own structure is the root of all awesomeness in Swagger. Why is it so great? Well, by reading your API’s structure, we can automatically build beautiful and interactive API documentation. We can also automatically generate client libraries for your API in many languages and explore other possibilities like automated testing. Swagger does this by asking your API to return a YAML or JSON that contains a detailed description of your entire API. This file is essentially a resource listing of your API which adheres to OpenAPI Specification. The specification asks you to include information like:
+## What is Swagger / OpenAPI?
+
+[Swagger](https://swagger.io/docs/specification/2-0/what-is-swagger/) (which is part of the OpenAPI initiative to standardize APIs across the internet) allows you to describe the structure of your APIs so that machines can read them. The ability of APIs to describe their own structure is the root of all the awesomeness in Swagger. Why is it so great? Well, by reading your API’s structure, we can automatically build beautiful and interactive API documentation. We can also automatically generate client libraries for your API in many languages and explore other possibilities like automated testing. Swagger does this by asking your API to return a YAML or JSON that contains a detailed description of your entire API. This file is essentially a resource listing of your API which adheres to OpenAPI Specification. The specification asks you to include information like:
 
 - What are all the operations that your API supports?
 - What are your API’s parameters and what does it return?
@@ -20,11 +21,11 @@ Swashbuckle is a .Net library to generate swagger definitions by looking at the 
 
 ## What is going to be shown?
 
-1. Adding swagger to a .net core Web API project
+1. Adding swagger to a .Net core Web API project
 2. "Decorating" the project to get good description in the swagger UI
 3. Generating client side Javascript from the swagger definition file
 
-## Adding swagger to your .net core Web API project
+## Adding Swagger to your .Net core Web API project
 
 This step is pretty simple. Add the Swashbuckle nuget package to your project. [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) is package that implements Swagger definition files for you and also provides a UI based off your swagger definition.
 
@@ -57,13 +58,13 @@ Now run the project (f5). Once the web browser shows up and loads the default ro
 
 ![swagger ui](_images/swagger-ui.png)
 
-You might notice that there are no descriptions of what the API will do. In the next section we will explore adding more meta data around your API's.
+You might notice that there are no descriptions of what the API will do. In the next section we will explore adding more metadata around your API's.
 
-## "Decorating" the project to get good description in the swagger UI
+## "Decorating" the project to get good descriptions in the swagger UI
 
 You will notice that there are no descriptions displayed or even a name associated to the operation.
 
-In order to descriptions we have to tell Swashbuckle to pick descriptions from somewhere. Swashbuckle supports using descriptions from XML comment documentation. Below is the code snippet that tells Swashbuckle to use comments as descriptions in the Swagger file.
+In order to have descriptions we have to tell Swashbuckle how to pick them out. Swashbuckle supports using descriptions from XML comment documentation. Below is the code snippet that tells Swashbuckle to use comments as descriptions in the Swagger file.
 
 ```
             services.AddSwaggerGen(c =>
@@ -143,7 +144,7 @@ And here is the output from Swashbuckle UI.
 
 ## Generating client side Javascript from the swagger definition file
 
-Now here comes the exciting part. From the swagger definition file we are going to generate client side code that you could incorporate into your react type script project.
+Now here comes the exciting part. From the swagger definition file we are going to generate client side code that you could incorporate into your React Typescript project.
 
 First step is to download the swagger definition file. Its located at this link on the Swagger UI and the link would be https://localhost:44370/swagger/v1/swagger.json.
 
@@ -161,4 +162,6 @@ A Zip file with the contents is sent to you. In our case the files in the image 
 
 We care most about the api.ts and configuration.ts files those would normally get place in your client front end project. The API.ts file is quite large. Here is a [link to it from the repo.](./client/api.ts)
 
-Thanks for walking through this process with me. Automatic generate of the client from the swagger file is one of the most exciting things to come out of the OpenApi definition movement.
+The beginning of our API client code is now largely complete, and the best part is, if we ever write another endpoint in our .Net web code, generating the client code for that endpoint needs only one step: the regeneration of the client code step. And if the project changes and we need to refactor significantly, say for example we want to use angular as well as typescript? We can just ask for that client to be generated as well.
+
+Thanks for walking through this process with us. Automatic generation of the client from the swagger file is one of the most exciting things to come out of the OpenApi definition movement. We'll be continuing to leverage OpenApi in our .Net projects, and hope you will as well.
